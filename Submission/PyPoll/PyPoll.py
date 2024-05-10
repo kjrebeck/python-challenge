@@ -1,16 +1,14 @@
-#Referenced 3.2 08 Ins Read - reading in csvs and headers
 #import mod to read csv file
 import csv
 
 #csv file path
-csvpath= "PyPoll/Resources/election_data.csv"
+csvpath= "Submission/Pypoll/Resources/election_data.csv"
 
 #list to store each candidates vote
 candidates={}
 #starting number of votes
 total_votes=0
 
-#er3.2 Activities #08-Ins_ReadCSV 
 #open csv file with utf-8 encoding
 with open(csvpath, encoding='UTF-8') as csvfile:
     # CSV reader specifies delimiter and variable that holds contents
@@ -28,27 +26,31 @@ with open(csvpath, encoding='UTF-8') as csvfile:
         candidate = row[2]
 
         #check if candidate exists in dict of candidates
-        #already in dict add 1 to count
-        #Referenced 'Automate the boring stuff Ch 4     
+        #already stored in list add 1 to count
+        #Referenced 'Automate the boring stuff Ch 4
         if candidate in candidates:
             candidates[candidate] +=1
         #not in dict, adds to list starts count at 1
         else:
             candidates[candidate]=1
+            
         # #store analysis results"
-        
         votingresults = (f"\nElection Results\n"
                    f"-------------------------\n"
                    #all ballots
                    f"Total Votes: {total_votes}\n"
                    f"-------------------------\n" +
                    #for each candidate return percentage of votes and count of votes
-                   "\n".join([f"{candidate}: {round(((count/total_votes)*100),3)}% ({count})" 
+                   #extracting values from lists within lists
+                   #https://docs.python.org/3/library/stdtypes.html#
+                   #https://docs.python.org/3/tutorial/datastructures.html#data-structures
+                   "\n".join([f"{candidate}: {round(((count/total_votes)*100),3)}% ({count})"
                               for candidate, count in candidates.items()]) +
-                   #return winner using max# 
+                              #candidate name (key), vote count (value) stored as tuple,
+                   #return winner using max# loops through candidate list- retrieves the value associated with a given key (most votes)
                    f"\n-------------------------\nWinner: {max(candidates, key=candidates.get)}\n-------------------------")
         
-    outputfile = "PyPoll/analysis/results.txt"
+    outputfile = "Submission/PyPoll/Analysis/electionresults.txt"
     with open (outputfile, mode='w', encoding='UTF-8') as output:
         output.write(votingresults)
         print(votingresults)

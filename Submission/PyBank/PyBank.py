@@ -1,18 +1,16 @@
-#Referenced 3.2 08 Ins Read - reading in csvs and headers
 #import mod to read csv file
 import csv
 
-#csv file path
-csvpath= "../Resources/budget_data.csv"
-
 #starting number of months
-total_months= 0
+total_months = 0
 #starting total profit
 total_profit = 0
 
-#list to store change and month
+#store change and month as tuple
 change_data=[]
 
+#csv file path
+csvpath= "Submission/Pybank/Resources/budget_data.csv"
 #open csv file with utf-8 encoding
 with open(csvpath, encoding='UTF-8') as csvfile:
     # CSV reader specifies delimiter and variable that holds contents
@@ -21,7 +19,7 @@ with open(csvpath, encoding='UTF-8') as csvfile:
     #read the header row
     csv_header =next(csvreader)
 
-    #read rows after header
+    #begin loop, evaluating data row by row
     for row in csvreader:
         #set first month 
         month=row[0]
@@ -33,39 +31,37 @@ with open(csvpath, encoding='UTF-8') as csvfile:
         total_profit += profit
 
         #changes, current month profit - prior month profit, starting in first row
-        #first row of data if total month is 1 
+        #first row of data if total month is >1 
         #Reference Automate the Boring Stuff Chapter 4 
         if total_months > 1:
             change = profit- prev_month_profit
             change_data.append((month, change))
+            #add month and changes to tuple
         #reset changes for following month
         #current months profit will become previous month
         prev_month_profit= profit
-            
-changes = [change for _, change in change_data]
-mean_changes = sum(changes) / len(changes)
-mean_rounded = round(mean_changes, 2)
-        #average change = sum of changes/ count of changes
-        #round to 2 decimal places
-    
 
-            #find max profit change with corresponding month
-    #get max from changes{} and store 
-    
-#get index val for max change and store
-#locate max profit change in list changes 
+#list comprehension - values from lists in tuples
+#https://docs.python.org/3/tutorial/datastructures.html#data-structures""
+#iterate/unpack tuple - extracting change, discard month, store in changes
+changes = [change for _, change in change_data]
+#average change = sum of changes/ count of changes
+mean_changes = sum(changes) / len(changes)
+#round to 2 decimal places
+mean_rounded = round(mean_changes, 2)
+       
+#locate max profit change in changes
 max_change = max(changes)
 #find max profit change in change {}, return with corresponding month
 max_month = next(month for month, change in change_data if change == max_change)
-#locate min profit change in profit changes list
+#locate min profit change in changes
 min_change = min(changes)
 #find max profit change in change {}, return with corresponding month
 min_month = next(month for month, change in change_data if change == min_change)
-            #find min profit change with corresponding month
+           
 
-        #store analysis results"
-        #source automatetheboringstuff chapter 16
-        #https://automatetheboringstuff.com/2e/chapter16/
+#store analysis results"
+
 analysisresults= (f"Financial Analysis\n"
                                 
                 f"-----------------\n"
@@ -79,12 +75,12 @@ analysisresults= (f"Financial Analysis\n"
                 f"Greatest Increase in Profits: {max_month} (${max_change})\n"
                 #print min change and month $
                 f"Greatest Decrease in Profits: {min_month} (${min_change})\n")
-            #print results to terminal
+#print results to terminal
 print(analysisresults)
 
-    #printing results to txt file
-    #file path
-outputfile = "../PyBank/analysis/results.txt"
+#printing results to txt file
+#file path
+outputfile = "Submission/PyBank/Analysis/financialresults.txt"
 with open (outputfile, mode='w', encoding='UTF-8') as output:
     output.write(analysisresults)
 
