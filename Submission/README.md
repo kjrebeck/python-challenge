@@ -1,7 +1,7 @@
 Homework 3 PyPoll & PyBank
 
 Created separate scripts for PyBank & PyPoll Utilizing python's built in functions and operations to import, read, process & analyze data sets 
-to return results listed below - printed to terminal and textfile
+then return results listed below - printed to terminal and textfile
 
 For PyBank 
 Financial Analysis
